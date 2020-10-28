@@ -1,0 +1,16 @@
+{
+  "portdetails":
+  {
+    "portno":"COM1",
+    "brate":9600,
+    "data_bits":" serial.EIGHTBITS",
+    "parity":"serial.PARITY_NONE",
+    "stop_bits":" serial.STOPBITS_ONE",
+    "timeout":1
+  },
+  "CodeFiles":
+  {
+    "FolderURL":"C:/Users/CC Server3/PycharmProjects/GUIPractice/CodeFiles/"
+  }
+
+}
