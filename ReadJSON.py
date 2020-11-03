@@ -18,3 +18,5 @@ def getTimeout():
     return (data["portdetails"]["timeout"])
 def getFolderURL():
     return (data["CodeFiles"]["FolderURL"])
+def getTempFileURL():
+    return (data["CodeFiles"]["TempFileURL"])

@@ -1,21 +1,21 @@
+import _thread
 import sys
-import time
+
 import easygui
 import serial
-
-from PyQt5.QtCore import QThread, pyqtSignal
-from PyQt5.QtWidgets import QApplication, QMessageBox, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
-from SerialPortFunc import detectPort, openPort, selectPort, closePort
-from ReadJSON import *
-import tkinter as tk
-from tkinter import filedialog
-from MsgBox import showdialog
-from LocalFileRead import openFile
-#FILE_LIMIT = 100
-#RATE_OF_CHANGE = 1
 
-global ser_1
+#from MachineFileRead import readFileFromMachine
+from ReadJSON import *
+from SerialPortFunc import detectPort, openPort, selectPort
+try:
+    ser = openPort(selectPort(), 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+ #   _thread.start_new_thread(readFileFromMachine(), ser, ("RF"))
+
+except:
+    print(IOError)
+
 
 class MainScreen(QMainWindow):
     def __init__(self):
@@ -50,46 +50,38 @@ class MainScreen(QMainWindow):
 
         file_path = getFolderURL()+x[l - 1]
         print(file_path)
-        print(getPortNo(), getBrate(), getDataBits(), getParity(), getStopBits())
-        detectPort()
-        ser_1 = openPort(getPortNo(), getBrate(),getDataBits(), getParity(), getStopBits())
+        #print(getPortNo(), getBrate(), getDataBits(), getParity(), getStopBits())
+     #   detectPort()
 
         fileptr = open(file_path, "r")
-        #self.countLines(file_path)
+        self.sendFile1(ser,fileptr)
+        try:
+            _thread.start_new_thread(self.sendFile1,ser,fileptr, (x))
+
+        except:
+            print("File Sent.")
+
+    def sendFile1(self,ser,fileptr1):
         lineno = 0;
-
         while True:
-              line = fileptr.readline()
-              QMessageBox.information(self, "Info", line)
-              lineno += 1
-              if not line:
-                    break
+            line = fileptr1.readline()
+        #    QMessageBox.information(self, "Info", line)
+            lineno += 1
+            if not line:
+                break
+            self.split_to_char(ser,line)
 
-              # selectPort()
-#              self.split_to_char(line)
-              ser_1.write(line.encode())
+            full_line = "{}".format(lineno) + "  " + line.strip()
+            self.addLineToFileDisplay(full_line)
+        fileptr1.close()
 
-                #write code to send char over COM port here
 
-            #  closePort(ser_1)
-
-              fullline = "{}".format(lineno) + "  " + line.strip()
-              self.addLineToFileDisplay(fullline)
-
-            # showdialog()
-        fileptr.close()
-        closePort(ser_1)
-        #except(Exception):
-     #   print("Display file error")
-
-    def split_to_char (self,word):
-   #     print(word)
-#        print (len(word))
+    def split_to_char (self,ser,word):
         for x in range(len(word)):
             ch1=word[x]
-            ser_1.write(ch1.encode())
+            ser.write(ch1.encode())
             print(ch1)
-        #return (word)
+
 
     def on_pauseBtn1_clicked(self):
         print("Pause Btn Clicked")
