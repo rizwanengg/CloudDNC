@@ -2,31 +2,52 @@
 <ui version="4.0">
  <class>DNCLoggerMainScreen</class>
  <widget class="QMainWindow" name="DNCLoggerMainScreen">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>809</width>
-    <height>564</height>
+    <width>539</width>
+    <height>305</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="tabletTracking">
+   <bool>false</bool>
   </property>
   <property name="windowTitle">
    <string>Nectar DNC Logger</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>n-c-tools-120x120.png</normaloff>n-c-tools-120x120.png</iconset>
+    <normaloff>../GUIPractice/n-c-tools-120x120.png</normaloff>../GUIPractice/n-c-tools-120x120.png</iconset>
+  </property>
+  <property name="inputMethodHints">
+   <set>Qt::ImhNoEditMenu</set>
   </property>
   <property name="tabShape">
-   <enum>QTabWidget::Rounded</enum>
+   <enum>QTabWidget::Triangular</enum>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>false</bool>
+  </property>
+  <property name="flag" stdset="0">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>350</y>
-      <width>791</width>
+      <y>190</y>
+      <width>521</width>
       <height>20</height>
      </rect>
     </property>
@@ -38,8 +59,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>363</y>
-      <width>791</width>
+      <y>203</y>
+      <width>481</width>
       <height>23</height>
      </rect>
     </property>
@@ -51,8 +72,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>380</y>
-      <width>791</width>
+      <y>220</y>
+      <width>521</width>
       <height>20</height>
      </rect>
     </property>
@@ -64,9 +85,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
-      <width>791</width>
-      <height>101</height>
+      <y>233</y>
+      <width>521</width>
+      <height>31</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,5,5,5,5,5">
@@ -74,7 +95,7 @@
       <number>17</number>
      </property>
      <property name="sizeConstraint">
-      <enum>QLayout::SetMinAndMaxSize</enum>
+      <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <property name="leftMargin">
       <number>2</number>
@@ -90,6 +111,12 @@
      </property>
      <item>
       <widget class="QPushButton" name="sendBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Send</string>
        </property>
@@ -97,6 +124,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pauseBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Pause</string>
        </property>
@@ -104,6 +137,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="resumeBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Resume</string>
        </property>
@@ -111,6 +150,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="abortBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Abort</string>
        </property>
@@ -118,6 +163,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="restartBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Restart</string>
        </property>
@@ -125,6 +176,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="backBtn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Back</string>
        </property>
@@ -135,11 +192,17 @@
    <widget class="QListWidget" name="fileDisplay">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>4</x>
       <y>0</y>
-      <width>781</width>
-      <height>351</height>
+      <width>341</width>
+      <height>191</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="focusPolicy">
      <enum>Qt::StrongFocus</enum>
@@ -148,13 +211,112 @@
      <number>0</number>
     </property>
    </widget>
+   <widget class="QWidget" name="formLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>349</x>
+      <y>0</y>
+      <width>181</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="rowWrapPolicy">
+      <enum>QFormLayout::WrapLongRows</enum>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="labelPortNo">
+       <property name="text">
+        <string>Port:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelBuadRate">
+       <property name="text">
+        <string>Baud Rate:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelParity">
+       <property name="text">
+        <string>Parity:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="labelDataBits">
+       <property name="text">
+        <string>Data Bits:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelStopBits">
+       <property name="text">
+        <string>Stop Bits:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="labelCurFile">
+       <property name="text">
+        <string>Current File:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="labelPortNo_2">
+       <property name="text">
+        <string>NA</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="labelBuadRate_2">
+       <property name="text">
+        <string>NA</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="labelParity_2">
+       <property name="text">
+        <string>NA</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="labelDataBits_2">
+       <property name="text">
+        <string>NA</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="labelStopBits_2">
+       <property name="text">
+        <string>NA</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLabel" name="labelCurFile_2">
+       <property name="text">
+        <string>NA</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>809</width>
+     <width>539</width>
      <height>21</height>
     </rect>
    </property>

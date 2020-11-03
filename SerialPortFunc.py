@@ -26,7 +26,8 @@ def detectPort():
 #def sendChar(ch):
 def selectPort():
     comlist = detectPort()
-    print (comlist)
+    print(comlist)
+    print("Port Selected is:"+ comlist[0])
     return comlist[0]
 
 def openPort(portno_,brate_,data_bits,parity_,stop_bits):
@@ -45,18 +46,26 @@ def openPort(portno_,brate_,data_bits,parity_,stop_bits):
     sio.flush()  # it is buffering. required to get the data out *now*
     hello = sio.readline()"""
   #  print(serial.unicode("hello\n"))
-    print("Port " + ser.name + " Open")
+    print("Port " + ser.name + " Opened")
 
     return ser#,sio
 
 def closePort(ser1):
-   ser1.close()
-   print("Port "+ser1.name+" Closed")
+   try:
+    ser1.close()
+    print("Port "+ser1.name+" Closed")
+   except serial.SerialException:
+    print(serial.SerialException)
 
 detectPort()
 #selectPort()
 ser_ = openPort(selectPort(),9600,serial.EIGHTBITS,serial.PARITY_NONE,serial.STOPBITS_ONE)
+#par = "{}".format("None")
+#par ="{!r}".format("N")
+#print (par)
+#ser_ = openPort(selectPort(),9600,8,par,serial.STOPBITS_ONE)
 ch1='Hello\n'
 ser_.write(ch1.encode())  # write a string
+ser_.close()
 
 #closePort(ser_)

@@ -19,9 +19,9 @@ def openFileToWrite(filename):
     except IOError:
         print("File Opening Error!")
 
-def writeCharToFile(f,ch1):
+def writeCharToFile(ch1):
     f.write(ch1)
-    #print(ch1)
+    print(ch1)
 
 def readFileFromMachine():
 
@@ -29,41 +29,26 @@ def readFileFromMachine():
         f = openFileToWrite(filename)
     except:
         print("Unable to create TEMP file.")
+    # detectPort()
 
     try:
         ser_ = openPort("COM3", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-
+        ser_.timeout = 1
         print("My" + ser_.name)
     except:
+       # print(serial.SerialException)
         print("Unable to open port" + ser_.name)
-    ser_.timeout = 1
-    ser_.xonxoff = True
-    while True:
+    while ser_.read(1):
+     #
+            writeCharToFile("%")
+            storeFile(ser_)
+      #  else:
+       #     continue
+
+def storeFile(ser_):
+    while ser_.read(1):
         ch = ser_.read(1)
-        if ch.decode('Ascii')=="%":
-            writeCharToFile(f, ch.decode('Ascii'))
-            print(ch.decode('Ascii'))
-            storeFile(f, ser_)
-        else:
-            continue
-
-
-def storeFile(f,ser_):
-    newFileName=""
-    ch = ser_.read(1)
-
-    writeCharToFile(f, ch.decode('Ascii'))  #write Line2 Char 1 i.e. O
-    print(ch.decode('Ascii'))
-
-    ch = ser_.read(1)   #read next char i.e. 4 from 4000
-
-    while ch.decode('Ascii')!="\n":
-
-        writeCharToFile(f, ch.decode('Ascii'))
-        newFileName += newFileName+ch.decode('Ascii')
         print(ch.decode('Ascii'))
-
-        ch = ser_.read(1)
-    print("NewFileName:"+newFileName)
+        writeCharToFile(ch.decode('Ascii'))
 
 readFileFromMachine()
