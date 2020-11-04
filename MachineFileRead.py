@@ -1,9 +1,10 @@
 import _thread
 import time
 
+import os
 import serial
 
-from ReadJSON import getTempFileURL
+from ReadJSON import getTempFileURL, getFolderURL
 from SerialPortFunc import detectPort, openPort, selectPort, closePort
 
 #read char from COM while there is char available or M30 or %
@@ -36,14 +37,21 @@ def readFileFromMachine():
         print("My" + ser_.name)
     except:
         print("Unable to open port" + ser_.name)
-    ser_.timeout = 1
-    ser_.xonxoff = True
+
+  #  ser_.timeout = 1
+  #  ser_.xonxoff = True
+
     while True:
         ch = ser_.read(1)
         if ch.decode('Ascii')=="%":
-            writeCharToFile(f, ch.decode('Ascii'))
+            writeCharToFile(f, ch.decode('Ascii'))  #write % char in file
             print(ch.decode('Ascii'))
-            storeFile(f, ser_)
+            newFile=storeFile(f, ser_)
+            f.close()
+            try:
+                os.rename(getTempFileURL(),getFolderURL()+newFile)
+            except IOError:
+                print("Unable to save incoming file from Machine. May be the file is already available.")
         else:
             continue
 
@@ -51,21 +59,26 @@ def readFileFromMachine():
 def storeFile(f,ser_):
     newFileName=""
     ch = ser_.read(1)
+    ch = ser_.read(1)
+    #writeCharToFile(f, ch.decode('Ascii'))  #write Line1 end char i.e. \n
+  #  print(ch.decode('Ascii'))
 
-    writeCharToFile(f, ch.decode('Ascii'))  #write Line2 Char 1 i.e. O
+    ch = ser_.read(1)
+
+    writeCharToFile(f, ch.decode('Ascii'))  # write Line2 first char i.e. O or P or...
     print(ch.decode('Ascii'))
 
     ch = ser_.read(1)   #read next char i.e. 4 from 4000
 
-    while ch.decode('Ascii')!="\n":
+    while ch.decode('Ascii')!='\r':
 
         writeCharToFile(f, ch.decode('Ascii'))
-        newFileName += newFileName+ch.decode('Ascii')
+        newFileName += ch.decode('Ascii')
         print(ch.decode('Ascii'))
+        ch = ser_.read(1)  # read next char
 
-<<<<<<< HEAD
     print("NewFileName:" + newFileName)
-    writeCharToFile(f, '\n')  # write \n to file
+    writeCharToFile(f, '\n')  #write Line2 end char i.e. \n
     print(ch.decode('Ascii'))
 
     while True:
@@ -73,11 +86,8 @@ def storeFile(f,ser_):
         writeCharToFile(f, ch.decode('Ascii'))  # write \n to file
         print(ch.decode('Ascii'))
 
-        if ch.decode('Ascii')=="%":
+        if ch.decode('Ascii')=="%" or ch.decode('Ascii')==32:
             break
-=======
-        ch = ser_.read(1)
-    print("NewFileName:"+newFileName)
 
->>>>>>> 916fe5d5a5337f0383be69cf448d261ffdffa29d
+    return newFileName
 readFileFromMachine()
