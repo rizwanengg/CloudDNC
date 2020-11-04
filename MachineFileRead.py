@@ -63,6 +63,7 @@ def storeFile(f,ser_):
         newFileName += newFileName+ch.decode('Ascii')
         print(ch.decode('Ascii'))
 
+<<<<<<< HEAD
     print("NewFileName:" + newFileName)
     writeCharToFile(f, '\n')  # write \n to file
     print(ch.decode('Ascii'))
@@ -74,4 +75,9 @@ def storeFile(f,ser_):
 
         if ch.decode('Ascii')=="%":
             break
+=======
+        ch = ser_.read(1)
+    print("NewFileName:"+newFileName)
+
+>>>>>>> 916fe5d5a5337f0383be69cf448d261ffdffa29d
 readFileFromMachine()
