@@ -1,21 +1,32 @@
-import _thread
+import threading
 import sys
 from PyQt5 import QtWidgets
 
 import easygui
 import serial
+from PyQt5.QtWidgets import QMessageBox
+
+from LocalFileRead import openFile
+from MachineFileRead import readFileFromMachine
 from MainScreen import Ui_DNCLoggerMainScreen
+
+global ypixels
 #python -m PyQt5.uic.pyuic -x MainScreen.ui -o MainScreen.py
+
 from ReadJSON import *
 from SerialPortFunc import detectPort, openPort, selectPort
 
+
 try:
     ser = openPort(selectPort(), 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+    ser.xonxoff=True
+
     print("Read Port Open")
- #   _thread.start_new_thread(readFileFromMachine(), ser, ("RF"))
+    ReadThread = threading.Thread(target=readFileFromMachine, args=(ser,))
+    ReadThread.start()
 
 except:
-    print(IOError)
+    print("Line 20:"+IOError)
 
 
 class MainScreen(QtWidgets.QMainWindow):
@@ -24,6 +35,7 @@ class MainScreen(QtWidgets.QMainWindow):
         self.ui = Ui_DNCLoggerMainScreen()
         self.ui.setupUi(self)
         #self.ui.DNCLoggerMainScreen.resize(1024, 768)
+        self.ui.progress.setValue(0)
 
         self.ui.sendBtn.clicked.connect(self.on_sendBtn1_clicked)
         self.ui.pauseBtn.clicked.connect(self.on_pauseBtn1_clicked)
@@ -55,17 +67,36 @@ class MainScreen(QtWidgets.QMainWindow):
         print(file_path)
         #print(getPortNo(), getBrate(), getDataBits(), getParity(), getStopBits())
      #   detectPort()
-
+        total_Lines = self.countLinesInFile(file_path)
+        print(total_Lines)
         fileptr = open(file_path, "r")
-        self.sendFile1(ser,fileptr)
         try:
-            _thread.start_new_thread(self.sendFile1,ser,fileptr, (x))
+            #_thread.start_new_thread(self.sendFile1,ser,fileptr, (x))
+
+            Th = threading.Thread(target=self.sendFile1, args=(ser,fileptr,total_Lines))
+            Th.start()
 
         except:
-            print("File Sent.")
+            QMessageBox.information(self, "File Send Thread Error",)
 
-    def sendFile1(self,ser,fileptr1):
-        lineno = 0;
+    def countLinesInFile(self,filename):
+        file = openFile(filename)
+        Counter = 0
+        Content = file.read()
+        CoList = Content.split("\n")
+
+        for i in CoList:
+            if i:
+                Counter += 1
+        file.close()
+        return Counter
+
+    def sendFile1(self,ser,fileptr1,totLines):
+        lineno = 0
+        self.ui.progress.setValue(0)
+        x = totLines
+        y = 100 / x
+
         while True:
             line = fileptr1.readline()
         #    QMessageBox.information(self, "Info", line)
@@ -75,7 +106,13 @@ class MainScreen(QtWidgets.QMainWindow):
             self.split_to_char(ser,line)
 
             full_line = "{}".format(lineno) + "  " + line.strip()
-            self.addLineToFileDisplay(full_line)
+            self.addLineToFileDisplay(full_line,lineno)
+
+            y = int(y + round(100 / x))
+            print(y)
+            self.ui.progress.setValue(y)       # setting value to progress bar
+
+
         fileptr1.close()
 
 
@@ -101,8 +138,10 @@ class MainScreen(QtWidgets.QMainWindow):
     def on_backBtn1_clicked(self):
         print("back Btn Clicked")
 
-    def addLineToFileDisplay(self,line):
+    def addLineToFileDisplay(self,line,lineno):
         self.ui.fileDisplay.addItem(line)
+        #self.ui.progress.setValue(lineno)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

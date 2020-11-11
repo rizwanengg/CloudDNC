@@ -24,7 +24,7 @@ def writeCharToFile(f,ch1):
     f.write(ch1)
     #print(ch1)
 
-def readFileFromMachine():
+def readFileFromMachine(ser):
 
     try:
         f = openFileToWrite(filename)
@@ -32,7 +32,8 @@ def readFileFromMachine():
         print("Unable to create TEMP file.")
 
     try:
-        ser_ = openPort("COM3", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+   #     ser_ = openPort("COM3", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+        ser_ = ser
 
         print("My" + ser_.name)
     except:
@@ -90,4 +91,4 @@ def storeFile(f,ser_):
             break
 
     return newFileName
-readFileFromMachine()
+#readFileFromMachine()
