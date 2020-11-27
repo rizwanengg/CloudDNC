@@ -93,7 +93,7 @@ class MainScreen(QtWidgets.QMainWindow):
 
     def sendFile1(self,ser,fileptr1,totLines):
         lineno = 0
-        self.ui.progress.setValue(0)
+    #    self.ui.progress.setValue(0)
         x = totLines
         y = 100 / x
 
@@ -110,7 +110,7 @@ class MainScreen(QtWidgets.QMainWindow):
 
             y = int(y + round(100 / x))
             print(y)
-            self.ui.progress.setValue(y)       # setting value to progress bar
+       #     self.ui.progress.setValue(y)       # setting value to progress bar
 
 
         fileptr1.close()
