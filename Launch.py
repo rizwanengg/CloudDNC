@@ -53,20 +53,26 @@ class MainScreen(QtWidgets.QMainWindow):
             print(Exception)
 
     def displayFile(self):
-        file_path_string = easygui.fileopenbox(msg="Select single file at a time.", title="Choose",
-                                               default=getFolderURL(),
-                                               filetypes=None, multiple=False)
-        file_path_string = (file_path_string.replace('\\', "/"))
-        x = file_path_string.split("/")
-        l = len(x)
+        print(getFolderURL())
 
-        file_path = getFolderURL()+x[l - 1]
-        print(file_path)
+        try:
+            file_path_string = easygui.fileopenbox(msg="Select single file at a time.", title="Choose",default=getFolderURL(),filetypes=None, multiple=False)
+     #   file_path_string = (file_path_string.replace('\\', "/"))
+     #   x = file_path_string.split("/")
+       # l = len(x)
+        
+    #    file_path = getFolderURL()+x[l - 1]
+            print(file_path_string)
+        except:
+            print("File browse error.")
         #print(getPortNo(), getBrate(), getDataBits(), getParity(), getStopBits())
      #   detectPort()
-        total_Lines = self.countLinesInFile(file_path)
+        total_Lines = self.countLinesInFile(file_path_string)#pi
         print(total_Lines)
-        fileptr = open(file_path, "r")
+        
+        fileptr = open(file_path_string, "r")#pi
+        
+            
         try:
             #_thread.start_new_thread(self.sendFile1,ser,fileptr, (x))
 

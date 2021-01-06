@@ -1,7 +1,7 @@
 {
   "portdetails":
   {
-    "portno":"COM3",
+    "portno":"/dev/tty0",
     "brate":9600,
     "data_bits":" serial.EIGHTBITS",
     "parity":"serial.PARITY_NONE",
@@ -10,8 +10,8 @@
   },
   "CodeFiles":
   {
-    "FolderURL":"C:/Users/CC Server3/PycharmProjects/CloudDNC/CodeFiles/",
-    "TempFileURL":"C:/Users/CC Server3/PycharmProjects/CloudDNC/CodeFiles/TEMP.txt"
+    "FolderURL":"/home/pi/CloudDNC/CodeFiles/",
+    "TempFileURL":"/home/pi/CloudDNC/CodeFiles/TEMP.txt"
   }
 
 }
