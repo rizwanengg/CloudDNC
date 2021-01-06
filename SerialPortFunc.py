@@ -59,13 +59,13 @@ def closePort(ser1):
 
 detectPort()
 #selectPort()
-ser_ = openPort(selectPort(),9600,serial.EIGHTBITS,serial.PARITY_NONE,serial.STOPBITS_ONE)
+#ser_ = openPort(selectPort(),9600,serial.EIGHTBITS,serial.PARITY_NONE,serial.STOPBITS_ONE)
 #par = "{}".format("None")
 #par ="{!r}".format("N")
 #print (par)
 #ser_ = openPort(selectPort(),9600,8,par,serial.STOPBITS_ONE)
-ch1='Hello\n'
-ser_.write(ch1.encode())  # write a string
-ser_.close()
+#ch1='Hello\n'
+#ser_.write(ch1.encode())  # write a string
+#Ser_.close()
 
 #closePort(ser_)

@@ -14,20 +14,19 @@ global ypixels
 #python -m PyQt5.uic.pyuic -x MainScreen.ui -o MainScreen.py
 
 from ReadJSON import *
-from SerialPortFunc import detectPort, openPort, selectPort
-
+from SerialPortFunc import detectPort, openPort
 
 try:
-    ser = openPort(selectPort(), 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-    ser.xonxoff=True
-
-    print("Read Port Open")
-    ReadThread = threading.Thread(target=readFileFromMachine, args=(ser,))
-    ReadThread.start()
+    # ser = openPort(selectPort(), 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+    ser = openPort(getPortNo(), getBrate(), serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+    ser.xonxoff = True
 
 except:
-    print("Line 20:"+IOError)
+    print("Line 20: " + IOError)
 
+ReadThread = threading.Thread(target=readFileFromMachine, args=(ser,))
+ReadThread.start()
+print("Machine to Device File Reading active.")
 
 class MainScreen(QtWidgets.QMainWindow):
     def __init__(self):
@@ -35,7 +34,7 @@ class MainScreen(QtWidgets.QMainWindow):
         self.ui = Ui_DNCLoggerMainScreen()
         self.ui.setupUi(self)
         #self.ui.DNCLoggerMainScreen.resize(1024, 768)
-        self.ui.progress.setValue(0)
+        #self.ui.progress.setValue(0)
 
         self.ui.sendBtn.clicked.connect(self.on_sendBtn1_clicked)
         self.ui.pauseBtn.clicked.connect(self.on_pauseBtn1_clicked)
@@ -43,8 +42,6 @@ class MainScreen(QtWidgets.QMainWindow):
         self.ui.abortBtn.clicked.connect(self.on_abortBtn1_clicked)
         self.ui.restartBtn.clicked.connect(self.on_restartBtn1_clicked)
         self.ui.backBtn.clicked.connect(self.on_backBtn1_clicked)
-        list_of_ports = detectPort()
-        print(list_of_ports)
 
 
     def on_sendBtn1_clicked(self):

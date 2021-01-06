@@ -1,4 +1,3 @@
-
 import json
 
 with open('settings.json') as f:

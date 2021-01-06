@@ -24,11 +24,11 @@ def writeCharToFile(f,ch1):
     f.write(ch1)
     #print(ch1)
 
-#def readFileFromMachine(ser):
-def readFileFromMachine():
+def readFileFromMachine(ser):
+#def readFileFromMachine():
     try:
-        ser_ = openPort("COM3", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-        #     ser_ = ser
+#        ser_ = openPort("COM3", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+        ser_ = ser
 
         print("MachineFileRead Port: " + ser_.name)
     except:
@@ -49,6 +49,7 @@ def readFileFromMachine():
                     writeCharToFile(f, ch.decode('Ascii'))  #write % char in file
                     print(ch.decode('Ascii'))
                     newFile=storeFile(f, ser_)
+                    print(getFolderURL() + newFile)
                     try:
                         os.remove(getFolderURL()+newFile)
 
@@ -78,7 +79,7 @@ def storeFile(f,ser_):
 
         writeCharToFile(f, ch.decode('Ascii'))
         newFileName += ch.decode('Ascii')
-        print(ch.decode('Ascii'))
+     #   print(ch.decode('Ascii'))
         ch = ser_.read(1)  # read next char
 
     print("NewFileName:" + newFileName)
@@ -110,4 +111,4 @@ def storeFile(f,ser_):
 
     return newFileName
 
-readFileFromMachine()
+#readFileFromMachine()
