@@ -10,8 +10,8 @@
   },
   "CodeFiles":
   {
-    "FolderURL":"/home/pi/CloudDNC/CodeFiles/",
-    "TempFileURL":"/home/pi/CloudDNC/CodeFiles/TEMP.txt"
+    "FolderURL":"/home/pi/Downloads/CloudDNC/CodeFiles/",
+    "TempFileURL":"/home/pi/Downloads/CloudDNC/CodeFiles/TEMP.txt"
   }
 
 }

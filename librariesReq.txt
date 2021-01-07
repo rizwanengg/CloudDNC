@@ -1,0 +1,4 @@
+sudo apt update
+sudo apt install python3-easygui
+sudo apt install python3-pyqt5
+sudo apt install python3-tk

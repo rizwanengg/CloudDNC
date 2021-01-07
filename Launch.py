@@ -1,16 +1,23 @@
+import tkinter as tk
+from os import listdir
+from os.path import isfile, join
+from ReadJSON import *
+#from Launch import fname
+
+
 import threading
 import sys
 from PyQt5 import QtWidgets
 
-import easygui
+#import easygui
 import serial
 from PyQt5.QtWidgets import QMessageBox
 
 from LocalFileRead import openFile
 from MachineFileRead import readFileFromMachine
 from MainScreen import Ui_DNCLoggerMainScreen
-
-global ypixels
+#from getFilename import browseFile
+global fname
 #python -m PyQt5.uic.pyuic -x MainScreen.ui -o MainScreen.py
 
 from ReadJSON import *
@@ -22,11 +29,49 @@ try:
     ser.xonxoff = True
 
 except:
-    print("Line 20: " + IOError)
+    print("Line 24: " + IOError)
 
 ReadThread = threading.Thread(target=readFileFromMachine, args=(ser,))
 ReadThread.start()
 print("Machine to Device File Reading active.")
+
+def browseFile():
+    mypath=getFolderURL()
+    onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+    #print (onlyfiles)
+
+    window_main = tk.Tk(className='Select File to Send.')
+    window_main.geometry('250x250')
+     
+    listbox_1 = tk.Listbox(window_main, selectmode=tk.EXTENDED)
+    i=1
+    for item in onlyfiles:
+        
+        listbox_1.insert(i, item)
+        i=i+1
+
+    listbox_1.pack()
+     
+    def submitFunction():
+        selection = listbox_1.curselection()
+        data = listbox_1.get(selection)
+
+        print('Data is:',data)
+        fileptr1 = open("CurrentFileRead.txt", "w")
+        fileptr1.write(data)
+        fileptr1.close()
+        window_main.destroy()
+        #return data
+     
+    submit = tk.Button(window_main, text='OK', command=submitFunction)
+    submit.pack()
+   # cancelq = tk.Button(window_main, text='Cancel', command=window_main.destroy())
+   # cancelq.pack()
+
+    window_main.mainloop()
+    
+#browseFile()
+    
 
 class MainScreen(QtWidgets.QMainWindow):
     def __init__(self):
@@ -53,10 +98,18 @@ class MainScreen(QtWidgets.QMainWindow):
             print(Exception)
 
     def displayFile(self):
-        print(getFolderURL())
+    #    print(getFolderURL())
 
         try:
-            file_path_string = easygui.fileopenbox(msg="Select single file at a time.", title="Choose",default=getFolderURL(),filetypes=None, multiple=False)
+            browseFile()
+            fileptr1 = open("CurrentFileRead.txt", "r")
+            faname=fileptr1.read()
+            fileptr1.close()
+            print(faname)
+            file_path_string = getFolderURL()+faname
+            #file_path_string = easygui.fileopenbox(msg="Select single file at a time.", title="Choose",default=getFolderURL(),filetypes=None, multiple=False)
+            #file_path_string = filedialog.askopenfilename(initialdir =  getFolderURL(), title = "Select A File", filetype = (("all files","*.*")) )
+        
      #   file_path_string = (file_path_string.replace('\\', "/"))
      #   x = file_path_string.split("/")
        # l = len(x)
@@ -97,8 +150,8 @@ class MainScreen(QtWidgets.QMainWindow):
     def sendFile1(self,ser,fileptr1,totLines):
         lineno = 0
     #    self.ui.progress.setValue(0)
-        x = totLines
-        y = 100 / x
+        #x = totLines
+        #y = 100 / x
 
         while True:
             line = fileptr1.readline()
@@ -111,8 +164,8 @@ class MainScreen(QtWidgets.QMainWindow):
             full_line = "{}".format(lineno) + "  " + line.strip()
             self.addLineToFileDisplay(full_line,lineno)
 
-            y = int(y + round(100 / x))
-            print(y)
+           # y = int(y + round(100 / x))
+           # print(y)
        #     self.ui.progress.setValue(y)       # setting value to progress bar
 
 
